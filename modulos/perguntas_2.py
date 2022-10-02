@@ -30,7 +30,7 @@ def palavras_comuns_titmusicas(df):
     musicas = df.index.values
     lis = []
     for musica in musicas:
-        lis += musica[1].split().lower()
+        lis += musica[1].split()
         print(type(musica[1].split()))
     uni = {}
     for palavra in lis:
