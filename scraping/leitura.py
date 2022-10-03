@@ -2,20 +2,36 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
-def scrap_albuns(url):
-    id_tabela = "tracklist"
-
+def scrap_albuns(url, id_tabela):
+    
     resposta = requests.get(url)
     pagina = BeautifulSoup(resposta.content, "html.parser")
-
     tabela = pagina.find_all("table", attrs = {"class" : id_tabela})
 
     table = pd.read_html(str(tabela))
     allas = pd.DataFrame({"Title": [], "Length": []})
     print(len(table))
     for versoes in table: 
-        tempo = versoes[["Title", "Length"]].copy().dropna()
+
+        tempo = versoes[["Title", "Length"]].copy()
+
+        n = 0
+        for titu in tempo["Title"]:
+            #print(titu, titu[1:].find('"'))
+            final = titu[1:].find('"')
+            tempo["Title"][n] = titu[1:final+1]
+            n += 1
+
+        print("\n\nTempo sem o dropna\n",tempo, "\nEsse foi\n\n")
+        tempo.dropna(inplace = True)
+        print("tempo 12",tempo["Title"][12] == "")
+        # try:
+        #     tempo.drop("", inplace = True)
+        # except:
+        #     print("")
+        print("\n\nTempo com o dropna\n",tempo, "\nEsse foi\n\n")
         tempo.set_index("Title", inplace = True)
+
         try:
             allas = allas.merge(tempo, how = "outer", on = ["Title", "Length"])
         except:
@@ -26,14 +42,16 @@ def scrap_albuns(url):
 
 
 url = "https://en.wikipedia.org/wiki/%2B_(album)"
-plus = scrap_albuns(url)
-print("\n\n\nBagulho:", plus, "\n\n")
+id_tabela = "tracklist"
+plus = scrap_albuns(url, id_tabela)
+#print("\n\n\nBagulho:", plus, "\n\n")
 lis = []
 lis += plus["Title"][16]
-print(type(plus["Title"][16]), plus["Title"][16], lis)
+#print(type(plus["Title"][16]), plus["Title"][16], lis)
+
 
 url = "https://en.wikipedia.org/wiki/X_(Ed_Sheeran_album)"
-#print("\n\n\nBagulho:", scrap_albuns(url))
+#print("\n\n\nBagulho:", scrap_albuns(url, id_tabela))
 
 
 
