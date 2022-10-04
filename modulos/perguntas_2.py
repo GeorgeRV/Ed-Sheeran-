@@ -10,12 +10,12 @@ def arruma_palavra(lista):
     """
     lista_nova = []
     for palavra in lista:
-        arruma = palavra[0].upper() + palavra[1:]
+        arruma = palavra[0].lower() + palavra[1:]
         arruma = arruma.replace('(', "")
         arruma = arruma.replace(')', "")
         arruma = arruma.replace(',', "")
         arruma = arruma.replace('?', "")
-        arruma = arruma.replace("'", '’')
+        arruma = arruma.replace('’', "'")
         arruma = arruma.replace('× ', '')
         arruma = arruma.replace('÷ ', '')
         lista_nova.append(arruma)
@@ -29,7 +29,7 @@ def count_palavras(lista_palavras):
     count_palavra = {}
     for palavra in lista_palavras:
         count_palavra[palavra] = lista_palavras.count(palavra)
-
+        
     count_palavra = pd.Series(count_palavra)
     count_palavra.sort_values(ascending=False, inplace = True)
 
@@ -90,6 +90,37 @@ def iv_palavras_comuns_let_musicas(df):
     return count_palavras(palavras_letras)
 
 
+def v(df):
+    return 1
+
+
+def vi(df):
+    musica_letra = df["Lyric"]
+    musica_letra = musica_letra.droplevel("Album")
+
+    letras = musica_letra.to_list()
+    musicas = list(musica_letra.index.values)
+
+    letras = arruma_palavra(letras)
+    musicas = arruma_palavra(musicas)
+
+    print(type(musicas))
+    print(musica_letra[0])
+    print(musicas[0],"\n\n", letras[0])
+
+    
+
+    recorrencia = {}
+    for num in range(len(musicas)):
+        recorrencia[musicas[num]] = letras[num].count(musicas[num])
+
+    recorrencia = pd.Series(recorrencia)
+    recorrencia.sort_values(ascending=False, inplace = True)
+    #print(type(musica_letra))
+
+    return recorrencia
+
+
 
 
 df = pd.read_excel("A1 LP.xlsx")
@@ -107,7 +138,9 @@ pd.set_option("display.min_rows", 500)
 # print("-"*60)
 # print(i_palavras_comuns_tit_album(df).head(10))
 
-print(iv_palavras_comuns_let_musicas(df).head(25))
+#print(iv_palavras_comuns_let_musicas(df).head(25))
+
+print(vi(df))
 
 # indices = ["Shape of You", "Perfect", "Castle on the Hill", "Thinking Out Loud"]
 # colunas = ["Album", "Tempo", "Lyric"]
