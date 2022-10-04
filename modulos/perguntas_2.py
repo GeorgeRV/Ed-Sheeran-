@@ -56,9 +56,10 @@ def i_palavras_comuns_tit_album(df):
 
 
 def ii_palavras_comuns_tit_musicas(df):
+
     album_musica = df.index.values
+
     palavras_musica = []
-    
     for musica in album_musica:
         palavras_musica += musica[1].split()
 
@@ -73,8 +74,20 @@ def iii():
     return ""
 
 
-def iv():
-    return ""
+def iv_palavras_comuns_let_musicas(df):
+    letras = list(df["Lyric"].values)
+
+    lista = []
+    for letra in letras:
+        lista.append(letra)
+
+    palavras_letras = []
+    for palavras in lista:
+        palavras_letras += palavras.split()
+
+    palavras_letras = arruma_palavra(palavras_letras)
+
+    return count_palavras(palavras_letras)
 
 
 
@@ -88,12 +101,13 @@ pd.set_option("display.max_rows", 500)
 pd.set_option("display.min_rows", 500)
 
 
-print("-"*60)
-print(i_palavras_comuns_tit_musicas(df).head(15))
+# print("-"*60)
+# print(ii_palavras_comuns_tit_musicas(df).head(15))
 
-print("-"*60)
-print(ii_palavras_comuns_tit_album(df).head(10))
+# print("-"*60)
+# print(i_palavras_comuns_tit_album(df).head(10))
 
+print(iv_palavras_comuns_let_musicas(df).head(25))
 
 # indices = ["Shape of You", "Perfect", "Castle on the Hill", "Thinking Out Loud"]
 # colunas = ["Album", "Tempo", "Lyric"]
