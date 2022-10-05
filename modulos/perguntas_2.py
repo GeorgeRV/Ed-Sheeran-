@@ -10,7 +10,7 @@ def arruma_palavra(lista):
     """
     lista_nova = []
     for palavra in lista:
-        arruma = palavra[0].lower() + palavra[1:]
+        arruma = palavra.lower()
         arruma = arruma.replace('(', "")
         arruma = arruma.replace(')', "")
         arruma = arruma.replace(',', "")
@@ -91,24 +91,37 @@ def iv_palavras_comuns_let_musicas(df):
 
 
 def v(df):
-    return 1
+    album_letra = df["Lyric"]
+    album_letra = album_letra.droplevel("Música")
+    
+    letras = album_letra.to_list()
+    albuns = list(album_letra.index.values)
+
+    letras = arruma_palavra(letras)
+    albuns = arruma_palavra(albuns)
+
+    recorrencia = {}
+    for num in range(len(letras)):
+        try:
+            recorrencia[albuns[num]] += letras[num].count(albuns[num])
+        except KeyError:
+            recorrencia[albuns[num]] = letras[num].count(albuns[num])
+
+    recorrencia = pd.Series(recorrencia)
+    recorrencia.sort_values(ascending=False, inplace = True)
+
+    return recorrencia
 
 
 def vi(df):
     musica_letra = df["Lyric"]
     musica_letra = musica_letra.droplevel("Album")
-
+    
     letras = musica_letra.to_list()
     musicas = list(musica_letra.index.values)
 
     letras = arruma_palavra(letras)
     musicas = arruma_palavra(musicas)
-
-    print(type(musicas))
-    print(musica_letra[0])
-    print(musicas[0],"\n\n", letras[0])
-
-    
 
     recorrencia = {}
     for num in range(len(musicas)):
@@ -116,7 +129,6 @@ def vi(df):
 
     recorrencia = pd.Series(recorrencia)
     recorrencia.sort_values(ascending=False, inplace = True)
-    #print(type(musica_letra))
 
     return recorrencia
 
@@ -140,7 +152,9 @@ pd.set_option("display.min_rows", 500)
 
 #print(iv_palavras_comuns_let_musicas(df).head(25))
 
-print(vi(df))
+print(v(df))
+
+#print(vi(df))
 
 # indices = ["Shape of You", "Perfect", "Castle on the Hill", "Thinking Out Loud"]
 # colunas = ["Album", "Tempo", "Lyric"]
