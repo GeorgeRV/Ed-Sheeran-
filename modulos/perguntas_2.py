@@ -25,6 +25,8 @@ def arruma_palavra(lista):
 def count_palavras(lista_palavras):
     """ Conta palavras de uma lista e retorna uma Série em ordem decrescente
 
+    :type lista_palavras: list or tuple
+
     """
     count_palavra = {}
     for palavra in lista_palavras:
@@ -71,7 +73,10 @@ def ii_palavras_comuns_tit_musicas(df):
 
 
 def iii():
-    return ""
+    
+    lista = []
+
+    return lista
 
 
 def iv_palavras_comuns_let_musicas(df):
@@ -101,11 +106,13 @@ def v(df):
     albuns = arruma_palavra(albuns)
 
     recorrencia = {}
+
+    for album in albuns:
+        recorrencia[album] = 0
+
     for num in range(len(letras)):
-        try:
-            recorrencia[albuns[num]] += letras[num].count(albuns[num])
-        except KeyError:
-            recorrencia[albuns[num]] = letras[num].count(albuns[num])
+        if letras[num].count(albuns[num]) != 0:
+            recorrencia[albuns[num]] += 1
 
     recorrencia = pd.Series(recorrencia)
     recorrencia.sort_values(ascending=False, inplace = True)
