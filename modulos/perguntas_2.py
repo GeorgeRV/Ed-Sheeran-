@@ -72,9 +72,18 @@ def ii_palavras_comuns_tit_musicas(df):
     return count_palavra
 
 
-def iii():
+def iii(df):
+
+    a = df.droplevel("Música").index.values
+    print(type(a))
+    albuns = list(np.unique(a))
+
     
-    lista = []
+
+    for album in albuns:
+        print(df.loc[album])
+        break
+    lista = albuns
 
     return lista
 
@@ -157,9 +166,11 @@ pd.set_option("display.min_rows", 500)
 # print("-"*60)
 # print(i_palavras_comuns_tit_album(df).head(10))
 
+print(iii(df))
+
 #print(iv_palavras_comuns_let_musicas(df).head(25))
 
-print(v(df))
+#print(v(df))
 
 #print(vi(df))
 
