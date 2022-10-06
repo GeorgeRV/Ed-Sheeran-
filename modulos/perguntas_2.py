@@ -2,6 +2,17 @@ import numpy as np
 import pandas as pd
 
 
+def prep_dataframe(dataframe_nome):
+    df = pd.read_excel(dataframe_nome)
+    df.drop(["Unnamed: 0", "Artista"], axis=1, inplace=True)
+    df.sort_values(by = "Album", inplace = True)
+    df.set_index(["Album", "Música"], inplace = True)
+
+    pd.set_option("display.max_rows", 500)
+    pd.set_option("display.min_rows", 500)
+
+    return df
+
 def arruma_palavra(lista):
     """ Remove alguns caracteres especiais de um conjunto de palavras e retorna uma lista com as palavras "arrumadas"
 
@@ -38,6 +49,8 @@ def count_palavras(lista_palavras):
     return count_palavra
 
 
+#-----------------------------------------------------------------------
+
 def i_palavras_comuns_tit_album(df):
 
     album_musica = df.index.values
@@ -57,6 +70,8 @@ def i_palavras_comuns_tit_album(df):
     return count_palavra
 
 
+#-----------------------------------------------------------------------
+
 def ii_palavras_comuns_tit_musicas(df):
 
     album_musica = df.index.values
@@ -72,21 +87,43 @@ def ii_palavras_comuns_tit_musicas(df):
     return count_palavra
 
 
+#-----------------------------------------------------------------------
+
+def para_tupla(df):
+    """ Cria uma lista de tuplas com os valores de um dataframe 
+
+    """
+    #print(df)
+
+    lista = []
+    for index, conteudo in df.items():
+        lista.append((index, conteudo))
+        print("Esta é\n",lista[0][1], "Acabou")
+        
+
+    return 4
+
+
 def iii(df):
 
-    a = df.droplevel("Música").index.values
-    print(type(a))
-    albuns = list(np.unique(a))
+    novo_df = df.droplevel("Música")
+    #print(type(novo_df))
+    albuns = list(np.unique(novo_df.index.values))
 
-    
+    #print("Ali esta\n",novo_df.drop("Tempo", axis=1),"ESSe foi")    
 
     for album in albuns:
-        print(df.loc[album])
+
+        li =  para_tupla(novo_df.drop("Tempo", axis=1))
+        
+        #print(df.loc[album], "\n\n\n")
         break
     lista = albuns
 
-    return lista
+    return 1#lista
 
+
+#-----------------------------------------------------------------------
 
 def iv_palavras_comuns_let_musicas(df):
     letras = list(df["Lyric"].values)
@@ -103,6 +140,8 @@ def iv_palavras_comuns_let_musicas(df):
 
     return count_palavras(palavras_letras)
 
+
+#-----------------------------------------------------------------------
 
 def v(df):
     album_letra = df["Lyric"]
@@ -129,6 +168,8 @@ def v(df):
     return recorrencia
 
 
+#-----------------------------------------------------------------------
+
 def vi(df):
     musica_letra = df["Lyric"]
     musica_letra = musica_letra.droplevel("Album")
@@ -149,33 +190,22 @@ def vi(df):
     return recorrencia
 
 
+#-----------------------------------------------------------------------
 
+if __name__ == "__main__":
 
-df = pd.read_excel("A1 LP.xlsx")
-df.drop(["Unnamed: 0", "Artista"], axis=1, inplace=True)
-df.sort_values(by = "Album", inplace = True)
-df.set_index(["Album", "Música"], inplace = True)
+    df = prep_dataframe("A1 LP.xlsx")
 
-pd.set_option("display.max_rows", 500)
-pd.set_option("display.min_rows", 500)
+    # print("-"*60)
+    # print(ii_palavras_comuns_tit_musicas(df).head(15))
 
+    # print("-"*60)
+    # print(i_palavras_comuns_tit_album(df).head(10))
 
-# print("-"*60)
-# print(ii_palavras_comuns_tit_musicas(df).head(15))
+    print(iii(df))
 
-# print("-"*60)
-# print(i_palavras_comuns_tit_album(df).head(10))
+    #print(iv_palavras_comuns_let_musicas(df).head(25))
 
-print(iii(df))
+    #print(v(df))
 
-#print(iv_palavras_comuns_let_musicas(df).head(25))
-
-#print(v(df))
-
-#print(vi(df))
-
-# indices = ["Shape of You", "Perfect", "Castle on the Hill", "Thinking Out Loud"]
-# colunas = ["Album", "Tempo", "Lyric"]
-# dados = [["÷ (Divide)", "03:53", "the club isn't " ], ["÷ (Divide)", "04:23", "este cantor lyrics"], ["÷ (Divide)", "04:27", "teste do teste"], ["× (Multiply)", "02:59", "letra teste"]]
-         
-# df = pd.DataFrame(dados,index = indices, columns = colunas)
+    #print(vi(df))
