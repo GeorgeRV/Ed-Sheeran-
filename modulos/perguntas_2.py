@@ -3,15 +3,19 @@ import pandas as pd
 
 
 def prep_dataframe(dataframe_nome):
-    df = pd.read_excel(dataframe_nome)
-    df.drop(["Unnamed: 0", "Artista"], axis=1, inplace=True)
-    df.sort_values(by = "Album", inplace = True)
-    df.set_index(["Album", "Música"], inplace = True)
+    try:
+        df = pd.read_excel(dataframe_nome)
+    except:
+        print("Erro, arquivo não encontrado")
+    else:
+        df.drop(["Unnamed: 0", "Artista"], axis=1, inplace=True)
+        df.sort_values(by = "Album", inplace = True)
+        df.set_index(["Album", "Música"], inplace = True)
 
-    pd.set_option("display.max_rows", 500)
-    pd.set_option("display.min_rows", 500)
+        pd.set_option("display.max_rows", 500)
+        pd.set_option("display.min_rows", 500)
 
-    return df
+        return df
 
 def arruma_palavra(lista):
     """ Remove alguns caracteres especiais de um conjunto de palavras e retorna uma lista com as palavras "arrumadas"
