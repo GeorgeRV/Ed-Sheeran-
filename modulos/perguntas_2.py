@@ -89,38 +89,29 @@ def ii_palavras_comuns_tit_musicas(df):
 
 #-----------------------------------------------------------------------
 
-def para_tupla(df):
-    """ Cria uma lista de tuplas com os valores de um dataframe 
-
-    """
-    #print(df)
-
-    lista = []
-    for index, conteudo in df.items():
-        lista.append((index, conteudo))
-        print("Esta é\n",lista[0][1], "Acabou")
-        
-
-    return 4
-
-
 def iii(df):
 
     novo_df = df.droplevel("Música")
-    #print(type(novo_df))
-    albuns = list(np.unique(novo_df.index.values))
 
-    #print("Ali esta\n",novo_df.drop("Tempo", axis=1),"ESSe foi")    
+    albuns = list(novo_df.index.values)
 
-    for album in albuns:
+    letras =  list(novo_df["Lyric"].values)
 
-        li =  para_tupla(novo_df.drop("Tempo", axis=1))
-        
-        #print(df.loc[album], "\n\n\n")
-        break
-    lista = albuns
+    dic = {}
+    dic[albuns[0]] = letras[0].split()
+    for num in range(1, len(albuns)):
+        if albuns[num] != albuns[num-1]:
+            dic[albuns[num]] = letras[num].split()
+        else: 
+            dic[albuns[num]] += letras[num].split()
 
-    return 1#lista
+    novo_dic = {}
+    for key, elemento in dic.items():
+        arr = arruma_palavra(elemento)
+        cont = count_palavras(arr)
+        novo_dic[key] = cont
+
+    return novo_dic
 
 
 #-----------------------------------------------------------------------
@@ -202,7 +193,9 @@ if __name__ == "__main__":
     # print("-"*60)
     # print(i_palavras_comuns_tit_album(df).head(10))
 
-    print(iii(df))
+    for album, palavras_comuns in iii(df).items():
+        print("\n\nAlbum: ", album, "\n")
+        print(palavras_comuns.head())
 
     #print(iv_palavras_comuns_let_musicas(df).head(25))
 
