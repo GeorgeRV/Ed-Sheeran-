@@ -7,8 +7,8 @@ def prep_dataframe(dataframe_nome):
         df = pd.read_excel(dataframe_nome)
     except:
         print("Erro, arquivo não encontrado")
+        raise
     else:
-        df.drop(["Unnamed: 0", "Artista"], axis=1, inplace=True)
         df.sort_values(by = "Album", inplace = True)
         df.set_index(["Album", "Música"], inplace = True)
 
@@ -17,7 +17,7 @@ def prep_dataframe(dataframe_nome):
 
         return df
 
-def arruma_palavra(lista):
+def arruma_palavra(lista, opc = 0):
     """ Remove alguns caracteres especiais de um conjunto de palavras e retorna uma lista com as palavras "arrumadas"
 
     :type lista: list or tuple
@@ -31,8 +31,11 @@ def arruma_palavra(lista):
         arruma = arruma.replace(',', "")
         arruma = arruma.replace('?', "")
         arruma = arruma.replace('’', "'")
-        arruma = arruma.replace('× ', '')
-        arruma = arruma.replace('÷ ', '')
+        arruma = arruma.replace('× ', "")
+        arruma = arruma.replace('÷ ', "")
+        arruma = arruma.replace('-', "")
+        if opc != 0:
+            arruma = arruma.replace(opc, "")
         lista_nova.append(arruma)
     return lista_nova
 
@@ -53,6 +56,19 @@ def count_palavras(lista_palavras):
     return count_palavra
 
 
+def em_dataframe(df, nome_index_antigo, nome_coluna):
+    """ Trasforma uma serie em um dataframe
+
+
+
+    """
+
+    novo_df = pd.DataFrame(df, columns = [nome_coluna])
+    novo_df.reset_index(inplace=True)
+    novo_df.rename(columns = {"index": nome_index_antigo}, inplace=True)
+
+    return novo_df
+
 #-----------------------------------------------------------------------
 
 def i_palavras_comuns_tit_album(df):
@@ -61,9 +77,8 @@ def i_palavras_comuns_tit_album(df):
 
     titulo_album = {}
     for album in album_musica:
-        album = arruma_palavra(album)
-        alb = album[0].replace("- EP", "")
-        titulo_album[alb] = ""
+        album = arruma_palavra(album, " ep")
+        titulo_album[album[0]] = ""
     
     palavras_album = []
     for key in titulo_album.keys():
@@ -71,7 +86,9 @@ def i_palavras_comuns_tit_album(df):
 
     count_palavra = count_palavras(palavras_album)
 
-    return count_palavra
+    novo_df = em_dataframe(count_palavra, "Palavras", "Contagem")
+
+    return novo_df
 
 
 #-----------------------------------------------------------------------
@@ -88,7 +105,9 @@ def ii_palavras_comuns_tit_musicas(df):
 
     count_palavra = count_palavras(palavras_musica)
 
-    return count_palavra
+    novo_df = em_dataframe(count_palavra, "Palavras", "Contagem")
+
+    return novo_df
 
 
 #-----------------------------------------------------------------------
@@ -99,7 +118,7 @@ def iii(df):
 
     albuns = list(novo_df.index.values)
 
-    letras =  list(novo_df["Lyric"].values)
+    letras =  list(novo_df["Letra"].values)
 
     dic = {}
     dic[albuns[0]] = letras[0].split()
@@ -113,7 +132,8 @@ def iii(df):
     for key, elemento in dic.items():
         arr = arruma_palavra(elemento)
         cont = count_palavras(arr)
-        novo_dic[key] = cont
+        novo_df = em_dataframe(cont, "Palavras", "Contagem")
+        novo_dic[key] = novo_df
 
     return novo_dic
 
@@ -121,7 +141,7 @@ def iii(df):
 #-----------------------------------------------------------------------
 
 def iv_palavras_comuns_let_musicas(df):
-    letras = list(df["Lyric"].values)
+    letras = list(df["Letra"].values)
 
     lista = []
     for letra in letras:
@@ -133,20 +153,24 @@ def iv_palavras_comuns_let_musicas(df):
 
     palavras_letras = arruma_palavra(palavras_letras)
 
-    return count_palavras(palavras_letras)
+    count_palavra = count_palavras(palavras_letras)
+
+    novo_df = em_dataframe(count_palavra, "Palavras", "Contagem")
+
+    return novo_df
 
 
 #-----------------------------------------------------------------------
 
 def v(df):
-    album_letra = df["Lyric"]
+    album_letra = df["Letra"]
     album_letra = album_letra.droplevel("Música")
     
     letras = album_letra.to_list()
     albuns = list(album_letra.index.values)
 
     letras = arruma_palavra(letras)
-    albuns = arruma_palavra(albuns)
+    albuns = arruma_palavra(albuns, "  ep")
 
     recorrencia = {}
 
@@ -166,7 +190,7 @@ def v(df):
 #-----------------------------------------------------------------------
 
 def vi(df):
-    musica_letra = df["Lyric"]
+    musica_letra = df["Letra"]
     musica_letra = musica_letra.droplevel("Album")
     
     letras = musica_letra.to_list()
@@ -189,20 +213,24 @@ def vi(df):
 
 if __name__ == "__main__":
 
-    df = prep_dataframe("A1 LP.xlsx")
+    df = prep_dataframe("A1.xlsx")
 
-    # print("-"*60)
-    # print(ii_palavras_comuns_tit_musicas(df).head(15))
+    print("-"*60, "\nFunção 1\n")
+    print(i_palavras_comuns_tit_album(df).head(10))
 
-    # print("-"*60)
-    # print(i_palavras_comuns_tit_album(df).head(10))
+    print("-"*60, "\nFunção 2\n")
+    print(ii_palavras_comuns_tit_musicas(df).head(15))
 
+    print("-"*60, "\nFunção 3\n")
     for album, palavras_comuns in iii(df).items():
         print("\n\nAlbum: ", album, "\n")
         print(palavras_comuns.head())
 
-    #print(iv_palavras_comuns_let_musicas(df).head(25))
+    print("-"*60, "\nFunção 4\n")
+    print(iv_palavras_comuns_let_musicas(df).head(25))
 
-    #print(v(df))
+    print("-"*60, "\nFunção 5\n")
+    print(v(df))
 
-    #print(vi(df))
+    print("-"*60, "\nFunção 6\n")
+    print(vi(df))
