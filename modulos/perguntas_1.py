@@ -5,25 +5,21 @@ df = pd.read_excel("A1 LP.xlsx")
 #Músicas mais ouvidas e músicas menos ouvidas por Álbum
 
 df_por_album = df.groupby(["Album"])
-mais_ouvidas_album = df_por_album["Popularidade"].transform(
-            max) == df["Popularidade"]
+mais_ouvidas_album = df_por_album["Popularidade"].transform(max) == df["Popularidade"]
 mais_ouvidas_album = df[mais_ouvidas_album]
 print("Mais ouvidas por álbum: \n", mais_ouvidas_album)
 
-menos_ouvidas_album = df_por_album["Popularidade"].transform(
-            min) == df["Popularidade"]
+menos_ouvidas_album = df_por_album["Popularidade"].transform(min) == df["Popularidade"]
 menos_ouvidas_album = df[menos_ouvidas_album]
 print("Menos ouvidas por álbum: \n", menos_ouvidas_album)
 
 #Músicas mais longas e músicas mais curtas por álbum
 
-mais_longas_album = df_por_album["Tempo"].transform(
-            max) == df["Tempo"]
+mais_longas_album = df_por_album["Tempo"].transform(max) == df["Tempo"]
 mais_longas_album = df[mais_longas_album]
 print("Mais longas por álbum: \n", mais_longas_album)
 
-menos_longas_album = df_por_album["Tempo"].transform(
-            min) == df["Tempo"]
+menos_longas_album = df_por_album["Tempo"].transform(min) == df["Tempo"]
 menos_longas_album = df[menos_longas_album]
 print("Menos longas por álbum: \n", menos_longas_album)
 
