@@ -1,46 +1,56 @@
-import numpy as np
 import pandas as pd
 
-
-def prep_dataframe(dataframe_nome):
-    df = pd.read_excel(dataframe_nome)
-    df.drop(["Unnamed: 0", "Artista"], axis=1, inplace=True)
-    df.sort_values(by = "Album", inplace = True)
-    df.set_index(["Album", "Música"], inplace = True)
-
-    pd.set_option("display.max_rows", 500)
-    pd.set_option("display.min_rows", 500)
-
-    return df
+df = pd.read_excel("A1 LP.xlsx")
 
 
-#---------------------------------------------
+# Músicas com mais e menos palavras por álbum
 
-def i_prop_tempo_letra(df):
-    
-    return df
+df_por_album = df.groupby(["Album"])
+mais_palavras_album = df_por_album["Letra"].transform(max) == df["Letra"]
+mais_palavras_album = df[mais_palavras_album]
+print("Músicas com mais palavras por álbum: \n", mais_palavras_album)
+
+menos_palvras_album = df_por_album["Letra"].transform(min) == df["Letra"]
+menos_palvras_album = df[menos_palvras_album]
+print("Músicas com menos palavras por álbum: \n", menos_palvras_album)
+
+# Música com mais e menos palavras
+
+mais_palavras = df[df["Letra"]==df["Letra"].max()]
+menos_palavras = df[df["Letra"]==df["Letra"].min()]
+
+print("Mais palavras: \n", mais_palavras)
+print("Menos palavras: \n", menos_palavras)
+
+# Há relação entre a quantidade de palavras e a duração das músicas?
+
+#Função para as músicas mais curtas e longas por álbum
+mais_longas_album = df_por_album["Tempo"].transform(max) == df["Tempo"]
+mais_longas_album = df[mais_longas_album]
+
+menos_longas_album = df_por_album["Tempo"].transform(min) == df["Tempo"]
+menos_longas_album = df[menos_longas_album]
+
+#Ver se os dtaframes formados pelas funções acima possuem valores iguais
+maior_tempo_popularidade = pd.merge(mais_longas_album, mais_palavras_album, how='inner')
+print("Maior tempo e maior número de palavras: \n", maior_tempo_popularidade)
+
+menor_tempo_popularidade = pd.merge(menos_longas_album, menos_palvras_album, how='inner')
+print("Menor tempo e menor número de palavras: \n", menor_tempo_popularidade)
+
+# Resposta: É possível ver que os dois fatores não possuem muita relação, 
+#pois as duas funções só retornaram uma música cada.
 
 
-#---------------------------------------------
-
-def ii(df):
-    return df
 
 
-#---------------------------------------------
-
-def iii(df):
-    return df
 
 
-#---------------------------------------------
 
-if __name__ == "__main__":
 
-    df = prep_dataframe("A1 LP.xlsx")
 
-    print(i(df))
 
-    print(ii(df))
 
-    print(iii(df))
+
+
+
