@@ -63,7 +63,7 @@ if __name__ == "__main__":
     import funcoes_auxiliares as fa
     import perguntas_2 as p2
 
-    df = fa.prep_dataframe("A1 LP.xlsx")
+    df = fa.prep_2(fa.prep_dataframe("A1 LP.xlsx"))
 
     # stop = set(STOPWORDS)
     # print(stop)
@@ -77,7 +77,7 @@ if __name__ == "__main__":
     fun_ii = p2.ii_palavras_comuns_tit_musicas(df)
     graf(fun_ii, "Palavras", "Contagem", "teste_2.png")
     print(fun_ii.head(15))
-    img_wordcloud(fun_ii, nome = "nuvem2.png")
+    #img_wordcloud(fun_ii, nome = "nuvem2.png")
     
 
     print("-"*60)
