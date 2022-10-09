@@ -213,7 +213,7 @@ def vi(df):
 
 if __name__ == "__main__":
 
-    df = prep_dataframe("A1.xlsx")
+    df = prep_dataframe("A1 LP.xlsx")
 
     print("-"*60, "\nFunção 1\n")
     print(i_palavras_comuns_tit_album(df).head(10))

@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_excel("A1.xlsx")
+df = pd.read_excel("A1 LP.xlsx")
 
 
 # Músicas com mais e menos palavras por álbum

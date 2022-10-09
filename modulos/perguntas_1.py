@@ -1,6 +1,7 @@
 import pandas as pd
 
-df = pd.read_excel("A1.xlsx")
+
+df = pd.read_excel("A1 LP.xlsx")
 
 #Músicas mais ouvidas e músicas menos ouvidas por Álbum
 def i():
