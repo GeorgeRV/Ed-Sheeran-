@@ -1,73 +1,7 @@
 import numpy as np
 import pandas as pd
+import funcoes_auxiliares as fa
 
-
-def prep_dataframe(dataframe_nome):
-    try:
-        df = pd.read_excel(dataframe_nome)
-    except:
-        print("Erro, arquivo não encontrado")
-        raise
-    else:
-        df.sort_values(by = "Album", inplace = True)
-        df.set_index(["Album", "Música"], inplace = True)
-
-        pd.set_option("display.max_rows", 500)
-        pd.set_option("display.min_rows", 500)
-
-        return df
-
-def arruma_palavra(lista, opc = 0):
-    """ Remove alguns caracteres especiais de um conjunto de palavras e retorna uma lista com as palavras "arrumadas"
-
-    :type lista: list or tuple
-
-    """
-    lista_nova = []
-    for palavra in lista:
-        arruma = palavra.lower()
-        arruma = arruma.replace('(', "")
-        arruma = arruma.replace(')', "")
-        arruma = arruma.replace(',', "")
-        arruma = arruma.replace('?', "")
-        arruma = arruma.replace('’', "'")
-        arruma = arruma.replace('× ', "")
-        arruma = arruma.replace('÷ ', "")
-        arruma = arruma.replace('-', "")
-        if opc != 0:
-            arruma = arruma.replace(opc, "")
-        lista_nova.append(arruma)
-    return lista_nova
-
-
-def count_palavras(lista_palavras):
-    """ Conta palavras de uma lista e retorna uma Série em ordem decrescente
-
-    :type lista_palavras: list or tuple
-
-    """
-    count_palavra = {}
-    for palavra in lista_palavras:
-        count_palavra[palavra] = lista_palavras.count(palavra)
-        
-    count_palavra = pd.Series(count_palavra)
-    count_palavra.sort_values(ascending=False, inplace = True)
-
-    return count_palavra
-
-
-def em_dataframe(df, nome_index_antigo, nome_coluna):
-    """ Trasforma uma serie em um dataframe
-
-
-
-    """
-
-    novo_df = pd.DataFrame(df, columns = [nome_coluna])
-    novo_df.reset_index(inplace=True)
-    novo_df.rename(columns = {"index": nome_index_antigo}, inplace=True)
-
-    return novo_df
 
 #-----------------------------------------------------------------------
 
@@ -77,16 +11,16 @@ def i_palavras_comuns_tit_album(df):
 
     titulo_album = {}
     for album in album_musica:
-        album = arruma_palavra(album, " ep")
+        album = fa.arruma_palavra(album, " ep")
         titulo_album[album[0]] = ""
     
     palavras_album = []
     for key in titulo_album.keys():
         palavras_album += key.split()
 
-    count_palavra = count_palavras(palavras_album)
+    count_palavra = fa.count_palavras(palavras_album)
 
-    novo_df = em_dataframe(count_palavra, "Palavras", "Contagem")
+    novo_df = fa.em_dataframe(count_palavra, "Palavras", "Contagem")
 
     return novo_df
 
@@ -101,11 +35,11 @@ def ii_palavras_comuns_tit_musicas(df):
     for musica in album_musica:
         palavras_musica += musica[1].split()
 
-    palavras_musica = arruma_palavra(palavras_musica)
+    palavras_musica = fa.arruma_palavra(palavras_musica)
 
-    count_palavra = count_palavras(palavras_musica)
+    count_palavra = fa.count_palavras(palavras_musica)
 
-    novo_df = em_dataframe(count_palavra, "Palavras", "Contagem")
+    novo_df = fa.em_dataframe(count_palavra, "Palavras", "Contagem")
 
     return novo_df
 
@@ -130,9 +64,9 @@ def iii(df):
 
     novo_dic = {}
     for key, elemento in dic.items():
-        arr = arruma_palavra(elemento)
-        cont = count_palavras(arr)
-        novo_df = em_dataframe(cont, "Palavras", "Contagem")
+        arr = fa.arruma_palavra(elemento)
+        cont = fa.count_palavras(arr)
+        novo_df = fa.em_dataframe(cont, "Palavras", "Contagem")
         novo_dic[key] = novo_df
 
     return novo_dic
@@ -151,11 +85,11 @@ def iv_palavras_comuns_let_musicas(df):
     for palavras in lista:
         palavras_letras += palavras.split()
 
-    palavras_letras = arruma_palavra(palavras_letras)
+    palavras_letras = fa.arruma_palavra(palavras_letras)
 
-    count_palavra = count_palavras(palavras_letras)
+    count_palavra = fa.count_palavras(palavras_letras)
 
-    novo_df = em_dataframe(count_palavra, "Palavras", "Contagem")
+    novo_df = fa.em_dataframe(count_palavra, "Palavras", "Contagem")
 
     return novo_df
 
@@ -169,8 +103,8 @@ def v(df):
     letras = album_letra.to_list()
     albuns = list(album_letra.index.values)
 
-    letras = arruma_palavra(letras)
-    albuns = arruma_palavra(albuns, "  ep")
+    letras = fa.arruma_palavra(letras)
+    albuns = fa.arruma_palavra(albuns, "  ep")
 
     recorrencia = {}
 
@@ -196,8 +130,8 @@ def vi(df):
     letras = musica_letra.to_list()
     musicas = list(musica_letra.index.values)
 
-    letras = arruma_palavra(letras)
-    musicas = arruma_palavra(musicas)
+    letras = fa.arruma_palavra(letras)
+    musicas = fa.farruma_palavra(musicas)
 
     recorrencia = {}
     for num in range(len(musicas)):
@@ -213,7 +147,7 @@ def vi(df):
 
 if __name__ == "__main__":
 
-    df = prep_dataframe("A1 LP.xlsx")
+    df = fa.prep_dataframe("A1 LP.xlsx")
 
     print("-"*60, "\nFunção 1\n")
     print(i_palavras_comuns_tit_album(df).head(10))

@@ -42,3 +42,6 @@ def vi():
 
 # Resposta: É possível ver que os dois fatores não possuem muita relação, 
 #pois as duas funções só retornaram uma música cada.
+
+if __name__ == "__main__":
+    print("Tudo certo")
