@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Músicas com mais e menos palavras por álbum
-def i ():
+def i (df):
     df_por_album = df.groupby(["Album"])
     mais_palavras_album = df_por_album["Letra"].transform(max) == df["Letra"]
     mais_palavras_album = df[mais_palavras_album]
@@ -10,9 +10,10 @@ def i ():
     menos_palvras_album = df_por_album["Letra"].transform(min) == df["Letra"]
     menos_palvras_album = df[menos_palvras_album]
     print("Músicas com menos palavras por álbum: \n", menos_palvras_album)
+    return mais_palavras_album, menos_palvras_album
 
 # Música com mais e menos palavras
-def ii():
+def ii(df):
     mais_palavras = df[df["Letra"]==df["Letra"].max()]
     menos_palavras = df[df["Letra"]==df["Letra"].min()]
 
@@ -22,15 +23,17 @@ def ii():
 # Há relação entre a quantidade de palavras e a duração das músicas?
 
 #Função para as músicas mais curtas e longas por álbum
-def iv():
+def iii(df):
+    mais_palavras_album, menos_palvras_album = i(df)
+    df_por_album = df.groupby(["Album"])
     mais_longas_album = df_por_album["Tempo"].transform(max) == df["Tempo"]
     mais_longas_album = df[mais_longas_album]
 
     menos_longas_album = df_por_album["Tempo"].transform(min) == df["Tempo"]
     menos_longas_album = df[menos_longas_album]
 
-#Ver se os dtaframes formados pelas funções acima possuem valores iguais
-def vi():
+    #Ver se os dtaframes formados pelas funções acima possuem valores iguais
+
     maior_tempo_popularidade = pd.merge(mais_longas_album, mais_palavras_album, how='inner')
     print("Maior tempo e maior número de palavras: \n", maior_tempo_popularidade)
 

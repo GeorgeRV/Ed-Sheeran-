@@ -50,6 +50,10 @@ def v(df):
 
 # Existe alguma relação entre a duração da música e sua popularidade?
 def vi(df):
+    mais_longas_album = ii(df, "+")
+    mais_ouvidas_album = i(df, "+")
+    menos_longas_album = ii(df, "-")
+    menos_ouvidas_album = i(df, "-") 
     maior_tempo_popularidade = pd.merge(mais_longas_album, mais_ouvidas_album, how='inner')
     print("Maior tempo e maior popularidade: \n", maior_tempo_popularidade)
 

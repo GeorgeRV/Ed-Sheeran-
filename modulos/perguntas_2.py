@@ -168,3 +168,5 @@ if __name__ == "__main__":
 
     print("-"*60, "\nFunção 6\n")
     print(vi(df))
+else:
+    import modulos.funcoes_auxiliares as fa

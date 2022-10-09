@@ -10,8 +10,9 @@ def prep_dataframe(dataframe_nome, sheet_nome = 0):
     else:
         return df
 
-def sei(df):
-    novo_df = df.sort_values(by = "Album", inplace = True)
+def prep_2(df):
+    novo_df = df
+    novo_df.sort_values(by = "Album", inplace = True)
     novo_df.set_index(["Album", "Música"], inplace = True)
     return novo_df
 
