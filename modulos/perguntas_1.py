@@ -28,37 +28,31 @@ def ii(df, mais_ou_menos = "+"):
         return menos_longas_album
 
 #Músicas mais ouvidas e músicas menos ouvidas
-def iii(df):
-    mais_ouvidas = df[df['Popularidade']==df['Popularidade'].max()]
-    print("Mais ouvidas: \n", mais_ouvidas)
-
-    menos_ouvidas = df[df['Popularidade']==df['Popularidade'].min()]
-    print("Menos ouvidas: \n", menos_ouvidas)
+def iii(df, mais_ou_menos = "+"):
+    if mais_ou_menos == "+":
+        mais_ouvidas = df[df['Popularidade']==df['Popularidade'].max()]
+        return mais_ouvidas
+    elif mais_ou_menos == "-":
+        menos_ouvidas = df[df['Popularidade']==df['Popularidade'].min()]
+        return menos_ouvidas
 
 #Músicas mais longas e músicas mais curta
-def iv(df):
-    mais_longas = df[df['Tempo']==df['Tempo'].max()]
-    print("Mais longas: \n", mais_longas)
-
-    menos_longas = df[df['Tempo']==df['Tempo'].min()]
-    print("Menos longas: \n", menos_longas)
+def iv(df, mais_ou_menos = "+"):
+    if mais_ou_menos == "+":
+        mais_longas = df[df['Tempo']==df['Tempo'].max()]
+        return mais_longas
+    elif mais_ou_menos == "-":
+        menos_longas = df[df['Tempo']==df['Tempo'].min()]
+        return menos_longas
 
 #Álbuns mais premiados
 def v(df):
     mais_premiado = df[df["Prêmios"]==df["Prêmios"].max()]
-    print("Álbum mais premiado: \n", mais_premiado)
+    return mais_premiado
 
 # Existe alguma relação entre a duração da música e sua popularidade?
-def vi(df):
-    mais_longas_album = ii(df, "+")
-    mais_ouvidas_album = i(df, "+")
-    menos_longas_album = ii(df, "-")
-    menos_ouvidas_album = i(df, "-") 
-    maior_tempo_popularidade = pd.merge(mais_longas_album, mais_ouvidas_album, how='inner')
-    print("Maior tempo e maior popularidade: \n", maior_tempo_popularidade)
-
-    menor_tempo_popularidade = pd.merge(menos_longas_album, menos_ouvidas_album, how='inner')
-    print("Menor tempo e menor popularidade: \n", menor_tempo_popularidade)
-
-if __name__ == "__main__":
-    df = pd.read_excel("A1 LP.xlsx")
+def vi(df, mais_ou_menos = "+"):
+    longas_album = ii(df, mais_ou_menos)
+    ouvidas_album = i(df, mais_ou_menos) 
+    tempo_popularidade = pd.merge(longas_album, ouvidas_album, how='inner')
+    print("Maior tempo e maior popularidade: \n", tempo_popularidade)

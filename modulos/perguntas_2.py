@@ -1,5 +1,8 @@
-import numpy as np
 import pandas as pd
+try:    
+    import modulos.funcoes_auxiliares as fa
+except:
+    import funcoes_auxiliares as fa
 
 
 #-----------------------------------------------------------------------
@@ -148,6 +151,7 @@ if __name__ == "__main__":
     import funcoes_auxiliares as fa
 
     df = fa.prep_dataframe("A1 LP.xlsx")
+    df = fa.prep_2(df)
 
     print("-"*60, "\nFunção 1\n")
     print(i_palavras_comuns_tit_album(df).head(10))
@@ -168,8 +172,3 @@ if __name__ == "__main__":
 
     print("-"*60, "\nFunção 6\n")
     print(vi(df))
-else:
-    try:    
-        import modulos.funcoes_auxiliares as fa
-    except:
-        import funcoes_auxiliares as fa
