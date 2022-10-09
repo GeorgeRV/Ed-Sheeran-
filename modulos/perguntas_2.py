@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import funcoes_auxiliares as fa
 
 
 #-----------------------------------------------------------------------
@@ -131,7 +130,7 @@ def vi(df):
     musicas = list(musica_letra.index.values)
 
     letras = fa.arruma_palavra(letras)
-    musicas = fa.farruma_palavra(musicas)
+    musicas = fa.arruma_palavra(musicas)
 
     recorrencia = {}
     for num in range(len(musicas)):
@@ -146,6 +145,7 @@ def vi(df):
 #-----------------------------------------------------------------------
 
 if __name__ == "__main__":
+    import funcoes_auxiliares as fa
 
     df = fa.prep_dataframe("A1 LP.xlsx")
 

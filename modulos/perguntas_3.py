@@ -1,8 +1,5 @@
 import pandas as pd
 
-df = pd.read_excel("A1 LP.xlsx")
-
-
 # Músicas com mais e menos palavras por álbum
 def i ():
     df_por_album = df.groupby(["Album"])
@@ -44,4 +41,5 @@ def vi():
 #pois as duas funções só retornaram uma música cada.
 
 if __name__ == "__main__":
+    df = pd.read_excel("A1 LP.xlsx")
     print("Tudo certo")

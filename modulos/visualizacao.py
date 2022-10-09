@@ -4,12 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 from PIL import Image
-import perguntas_2 as p2
 
-# import sys
-
-# #sys.path.insert(0, "c:\\Users\\georg\\Desktop\\A1.5")
-# print(sys.path)
 
 def salva_graf(plot, fig_nome):
     fig = plot.get_figure()
@@ -40,7 +35,7 @@ def img_wordcloud(df, nome = "nuvem.png", coluna = "Palavras", image = -1, color
     fig, ax = plt.subplots(figsize=(10,6))
     ax.imshow(nuvem, interpolation='bilinear')
     ax.set_axis_off()
-    plt.imshow(nuvem);
+    plt.imshow(nuvem)
     nuvem.to_file(nome)
 
 
@@ -65,8 +60,10 @@ def visualizacao_iii(df):
 #-----------------------------------------------------------------------
 
 if __name__ == "__main__":
+    import funcoes_auxiliares as fa
+    import perguntas_2 as p2
 
-    df = p2.prep_dataframe("A1.xlsx")
+    df = fa.prep_dataframe("A1 LP.xlsx")
 
     # stop = set(STOPWORDS)
     # print(stop)
@@ -74,14 +71,14 @@ if __name__ == "__main__":
     print("-"*60)
     fun_i = p2.i_palavras_comuns_tit_album(df).head(10)
     img_wordcloud(fun_i)
-    graf(fun_i, "Palavras", "Contagem", "teste_1.png")
-    print(fun_i)
+
 
     print("-"*60)
     fun_ii = p2.ii_palavras_comuns_tit_musicas(df)
-    img_wordcloud(fun_ii, nome = "nuvem2.png")
     graf(fun_ii, "Palavras", "Contagem", "teste_2.png")
     print(fun_ii.head(15))
+    img_wordcloud(fun_ii, nome = "nuvem2.png")
+    
 
     print("-"*60)
     visualizacao_iii(df)

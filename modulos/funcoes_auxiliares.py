@@ -1,20 +1,20 @@
 import numpy as np
 import pandas as pd
 
-def prep_dataframe(dataframe_nome):
+def prep_dataframe(dataframe_nome, sheet_nome = 0):
     try:
-        df = pd.read_excel(dataframe_nome)
+        df = pd.read_excel(dataframe_nome, sheet_name = sheet_nome)
     except:
         print("Erro, arquivo não encontrado")
         raise
     else:
-        df.sort_values(by = "Album", inplace = True)
-        df.set_index(["Album", "Música"], inplace = True)
-
-        pd.set_option("display.max_rows", 500)
-        pd.set_option("display.min_rows", 500)
-
         return df
+
+def sei(df):
+    novo_df = df.sort_values(by = "Album", inplace = True)
+    novo_df.set_index(["Album", "Música"], inplace = True)
+    return novo_df
+
 
 def arruma_palavra(lista, opc = 0):
     """ Remove alguns caracteres especiais de um conjunto de palavras e retorna uma lista com as palavras "arrumadas"
