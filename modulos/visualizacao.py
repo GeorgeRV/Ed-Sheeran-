@@ -44,7 +44,7 @@ def img_wordcloud(df, nome = "images/nuvem.png", coluna = "Palavras", image = -1
     nuvem.to_file(nome)
 
 
-def visualizacao_iii(df):
+def visualizacao_2_iii(df):
     for album, palavras_comuns in p2.iii(df).items():        
         match album:
             case "× (Multiply)":
@@ -75,52 +75,28 @@ if __name__ == "__main__":
     # stop = set(STOPWORDS)
     # print(stop)
 
-    # print("-"*60)
-    # fun_i = p2.i_palavras_comuns_tit_album(df).head(10)
-    # img_wordcloud(fun_i)
-
-
-    # print("-"*60)
-    # fun_ii = p2.ii_palavras_comuns_tit_musicas(df)
-    # graf(fun_ii, "Palavras", "Contagem", "images/teste_2.png")
-    # print(fun_ii.head(15))
-    # #img_wordcloud(fun_ii, nome = "images/nuvem2.png")
+   
     
+
+    
+
+    # gp1_2 = p1.ii(df2)
+    # gp1_2 = gp1_2.droplevel("Album")
+    # gp1_2.reset_index(inplace=True)
+    # gp1_2.rename(columns = {"index": "Música"}, inplace=True)
+    # g = gp1_2[["Música","Tempo"]]
+    # for num in range(len(g["Tempo"])):
+    #     g["Tempo"][num] = int((g["Tempo"][num]).strftime("%H%M%S"))
+    # graf(g, "Música", "Tempo", "images/teste_3.png")
+    
+    print("-"*60)
+    fun_i = p2.i_palavras_comuns_tit_album(df).head(10)
+    img_wordcloud(fun_i, nome = "images/PComum Album nuvem.png")
+
 
     print("-"*60)
-    #visualizacao_iii(df)
+    fun_ii = p2.ii_palavras_comuns_tit_musicas(df)
+    img_wordcloud(fun_ii, nome = "images/PComum Música nuvem.png")
 
-    print(type(df))
-
-    gp1_1 = p1.ii(df2)
-    gp1_1 = gp1_1.droplevel("Album")
-    gp1_1.reset_index(inplace=True)
-    gp1_1.rename(columns = {"index": "Música"}, inplace=True)
-    g = gp1_1[["Música","Tempo"]]
-    for num in range(len(g["Tempo"])):
-        g["Tempo"][num] = int((g["Tempo"][num]).strftime("%H%M%S"))
-    graf(g, "Música", "Tempo", "images/teste_3.png")
-    
-        
-
-    # print("-"*60)
-
-    # fun_iv = p2.iv_palavras_comuns_let_musicas(df)
-    # print(fun_iv.head(25))
-    # graf(fun_iv, "Palavras", "Contagem", "images/teste_4.png")
-    # img_wordcloud(fun_iv, nome = "images/nuvem4.png")
-
-    # print("-"*60)
-    # fun_v =p2.v(df)
-    # graf(fun_v, "Palavras", "Contagem", "images/teste_5.png")
-    # print(fun_v)
-
-    # print("-"*60)
-    # fun_vi =p2.vi(df).head(10)
-    # graf(fun_vi, "Palavras", "Contagem", "images/teste_6.png")
-    # print(fun_vi)
-
-
-    # for album, palavras_comuns in p2.iii(df).items():
-    #     print("\n\nAlbum: ", album, "\n")
-    #     print(palavras_comuns.head())
+    print("-"*60)
+    visualizacao_2_iii(df)

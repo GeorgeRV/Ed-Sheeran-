@@ -11,7 +11,6 @@ except:
     import perguntas_2 as p2
     import perguntas_3 as p3
 
-
 def prep_dataframe(dataframe_nome, sheet_nome = 0):
     """ Prepara uma panilha
 
