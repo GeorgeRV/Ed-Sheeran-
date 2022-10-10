@@ -130,6 +130,9 @@ def grupo_funcao(grup, func):
 
 
 def funcoes_1():
+    """ Escreve na tela todas as funções do grupo 1 com o dataframe preparado
+
+    """
 
     df = prep_dataframe("A1 LP.xlsx" ,"EdSheeran")
     df2 = prep_dataframe("A1 LP.xlsx", 1)
@@ -195,6 +198,9 @@ def funcoes_1():
     pausa_limpa()
 
 def funcoes_2():
+    """ Escreve na tela todas as funções do grupo 2 com o dataframe preparado
+
+    """
 
     df = prep_dataframe("A1 LP.xlsx" ,"EdSheeran")
     df = prep_2(df)
@@ -231,6 +237,9 @@ def funcoes_2():
 
 
 def funcoes_3():
+    """ Escreve na tela todas as funções do grupo 3 com o dataframe preparado
+
+    """
 
     df = prep_dataframe("A1 LP.xlsx" ,"EdSheeran")
 
@@ -243,7 +252,6 @@ def funcoes_3():
     menos_palvras_album = p3.i(df, "-")
     print("Músicas com menos palavras por álbum: \n", menos_palvras_album)
     pausa_limpa()
-
 
 
     grupo_funcao(3,2)
@@ -261,7 +269,6 @@ def funcoes_3():
     maior_tempo_popularidade = p3.iii(df, "+")
     print("Maior tempo e maior número de palavras: \n", maior_tempo_popularidade)
     pausa_limpa()
-
 
     grupo_funcao(3,3)
     menor_tempo_popularidade = p3.iii(df, "-")

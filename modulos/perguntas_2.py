@@ -8,7 +8,14 @@ except:
 #-----------------------------------------------------------------------
 
 def i_palavras_comuns_tit_album(df):
+    """ Agrupa as palavras únicas dos títulos dos albuns, as conta e ordena em ordem decrescente
 
+    :param df: Dataframe do pandas
+    :type df: pandas.core.frame.DataFrame
+
+    Quais são as palavras mais comuns nos títulos dos Álbuns?
+
+    """
     album_musica = df.index.values
 
     titulo_album = {}
@@ -30,6 +37,14 @@ def i_palavras_comuns_tit_album(df):
 #-----------------------------------------------------------------------
 
 def ii_palavras_comuns_tit_musicas(df):
+    """ Agrupa as palavras únicas dos títulos das músicas, as conta e ordena em ordem decrescente
+
+    :param df: Dataframe do pandas
+    :type df: pandas.core.frame.DataFrame
+
+    Quais são as palavras mais comuns nos títulos das músicas?
+
+    """
 
     album_musica = df.index.values
 
@@ -49,6 +64,14 @@ def ii_palavras_comuns_tit_musicas(df):
 #-----------------------------------------------------------------------
 
 def iii(df):
+    """ Agrupa as palavras únicas das letras das músicas por album, as conta e ordena em ordem decrescente
+
+    :param df: Dataframe do pandas
+    :type df: pandas.core.frame.DataFrame
+
+    Quais são as palavras mais comuns nas letras das músicas, por Álbum?
+
+    """
 
     novo_df = df.droplevel("Música")
 
@@ -77,6 +100,15 @@ def iii(df):
 #-----------------------------------------------------------------------
 
 def iv_palavras_comuns_let_musicas(df):
+    """ Agrupa as palavras únicas das letras das músicas, as conta e ordena em ordem decrescente
+
+    :param df: Dataframe do pandas
+    :type df: pandas.core.frame.DataFrame
+
+    Quais são as palavras mais comuns nas letras das músicas, em toda a discografia?
+
+    """
+
     letras = list(df["Letra"].values)
 
     lista = []
@@ -99,6 +131,15 @@ def iv_palavras_comuns_let_musicas(df):
 #-----------------------------------------------------------------------
 
 def v(df):
+    """ Verifica a frequência na qual os títulos dos albuns aparecem nas letras das suas músicas
+
+    :param df: Dataframe do pandas
+    :type df: pandas.core.frame.DataFrame
+
+    O título de um álbum é tema recorrente nas letras?
+
+    """
+
     album_letra = df["Letra"]
     album_letra = album_letra.droplevel("Música")
     
@@ -126,6 +167,15 @@ def v(df):
 #-----------------------------------------------------------------------
 
 def vi(df):
+    """ Verifica a frequência na qual os títulos dos músicas aparecem nas letras
+
+    :param df: Dataframe do pandas
+    :type df: pandas.core.frame.DataFrame
+
+    O título de uma música é tema recorrente nas letras?
+
+    """
+
     musica_letra = df["Letra"]
     musica_letra = musica_letra.droplevel("Album")
     
