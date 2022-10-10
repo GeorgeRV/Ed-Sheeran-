@@ -4,12 +4,17 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 from PIL import Image
+import datetime
 
 
 def salva_graf(plot, fig_nome):
     fig = plot.get_figure()
     fig.savefig(fig_nome)
 
+
+def graf(df, x_nome, y_nome, fig_nome):
+    plot = sns.barplot(data = df, x = x_nome, y = y_nome)
+    salva_graf(plot, fig_nome)
 
 def graf(df, x_nome, y_nome, fig_nome):
     plot = sns.barplot(data = df, x = x_nome, y = y_nome)
@@ -70,24 +75,29 @@ if __name__ == "__main__":
     # stop = set(STOPWORDS)
     # print(stop)
 
-    print("-"*60)
-    fun_i = p2.i_palavras_comuns_tit_album(df).head(10)
-    img_wordcloud(fun_i)
+    # print("-"*60)
+    # fun_i = p2.i_palavras_comuns_tit_album(df).head(10)
+    # img_wordcloud(fun_i)
 
 
-    print("-"*60)
-    fun_ii = p2.ii_palavras_comuns_tit_musicas(df)
-    graf(fun_ii, "Palavras", "Contagem", "images/teste_2.png")
-    print(fun_ii.head(15))
-    #img_wordcloud(fun_ii, nome = "images/nuvem2.png")
+    # print("-"*60)
+    # fun_ii = p2.ii_palavras_comuns_tit_musicas(df)
+    # graf(fun_ii, "Palavras", "Contagem", "images/teste_2.png")
+    # print(fun_ii.head(15))
+    # #img_wordcloud(fun_ii, nome = "images/nuvem2.png")
     
 
     print("-"*60)
     #visualizacao_iii(df)
 
-    gp1_1 = p1.i(df2)
-
-    graf(gp1_1["Música", "Tempo"], "Música", "Tempo", "images/teste_3.png")
+    gp1_1 = p1.ii(df2)
+    gp1_1 = gp1_1.droplevel("Album")
+    gp1_1.reset_index(inplace=True)
+    gp1_1.rename(columns = {"index": "Música"}, inplace=True)
+    g = gp1_1[["Música","Tempo"]]
+    for num in range(len(g["Tempo"])):
+        g["Tempo"][num] = int((g["Tempo"][num]).strftime("%H%M%S"))
+    graf(g, "Música", "Tempo", "images/teste_3.png")
     
         
 
