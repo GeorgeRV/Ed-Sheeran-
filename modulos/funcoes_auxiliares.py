@@ -13,6 +13,16 @@ except:
 
 
 def prep_dataframe(dataframe_nome, sheet_nome = 0):
+    """ Prepara uma panilha
+
+    :param dataframe_nome: Nome da panilha
+    :type dataframe_nome: string
+    :param sheet_nome: Nome da aba ou seu index
+    :type sheet_nome: string or int
+
+    Recebe uma planilha do excel e o nome ou index da aba e e tenta retornar em um dataframe
+
+    """
     try:
         df = pd.read_excel(dataframe_nome, sheet_name = sheet_nome)
     except:
@@ -22,16 +32,27 @@ def prep_dataframe(dataframe_nome, sheet_nome = 0):
         return df
 
 def prep_2(df):
+    """ Prepara o dataframe do Ed Sheeran de meneira específica
+
+    :param df: Dataframe do pandas
+    :type df: pandas.core.frame.DataFrame
+
+    Recebe um dataframe e o retorna com um multiIndex 
+
+    """
     novo_df = df
     novo_df.sort_values(by = "Album", inplace = True)
     novo_df.set_index(["Album", "Música"], inplace = True)
     return novo_df
 
 
-def arruma_palavra(lista, opc = 0):
+def arruma_palavra(lista, opc = None):
     """ Remove alguns caracteres especiais de um conjunto de palavras e retorna uma lista com as palavras "arrumadas"
 
+    :param lista: Lista com palavras(strings)
     :type lista: list or tuple
+    :param opc: Caracter opcional a ser removido
+    :type opc: string 
 
     """
     lista_nova = []
@@ -45,7 +66,7 @@ def arruma_palavra(lista, opc = 0):
         arruma = arruma.replace('× ', "")
         arruma = arruma.replace('÷ ', "")
         arruma = arruma.replace('-', " ")
-        if opc != 0:
+        if opc != None:
             arruma = arruma.replace(opc, "")
         lista_nova.append(arruma)
     return lista_nova
@@ -54,6 +75,7 @@ def arruma_palavra(lista, opc = 0):
 def count_palavras(lista_palavras):
     """ Conta palavras de uma lista e retorna uma Série em ordem decrescente
 
+    :param lista_palavras: Lista com palavras(strings) 
     :type lista_palavras: list or tuple
 
     """
@@ -70,7 +92,12 @@ def count_palavras(lista_palavras):
 def em_dataframe(df, nome_index_antigo, nome_coluna):
     """ Trasforma uma serie em um dataframe
 
-
+    :param df: Dataframe do pandas
+    :type df: pandas.core.frame.DataFrame
+    :param nome_index_antigo: Nome do index antigo 
+    :type nome_index_antigo: string
+    :param nome_coluna: Nome da coluna
+    :type nome_coluna: string
 
     """
 
@@ -82,11 +109,22 @@ def em_dataframe(df, nome_index_antigo, nome_coluna):
 
 
 def pausa_limpa():
+    """ Pausa e limpa a tela
+
+    """
     os.system("PAUSE")
     os.system('cls')
 
 
 def grupo_funcao(grup, func):
+    """ Escreve na tela o grupo e função que vão execultadas
+
+    :param grup: Número do grupo
+    :type grup: int
+    :param func: Número da função
+    :type func: int
+
+    """
     print(f"\t\t---Grupo  {grup}---")
     print(f"-------------------Função {func}-------------------\n")
 

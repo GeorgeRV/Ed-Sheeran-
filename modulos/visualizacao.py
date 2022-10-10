@@ -90,6 +90,8 @@ if __name__ == "__main__":
     print("-"*60)
     #visualizacao_iii(df)
 
+    print(type(df))
+
     gp1_1 = p1.ii(df2)
     gp1_1 = gp1_1.droplevel("Album")
     gp1_1.reset_index(inplace=True)
