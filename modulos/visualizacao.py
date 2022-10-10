@@ -4,6 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 from PIL import Image
+import datetime
 
 
 def salva_graf(plot, fig_nome):
@@ -15,8 +16,12 @@ def graf(df, x_nome, y_nome, fig_nome):
     plot = sns.barplot(data = df, x = x_nome, y = y_nome)
     salva_graf(plot, fig_nome)
 
+def graf(df, x_nome, y_nome, fig_nome):
+    plot = sns.barplot(data = df, x = x_nome, y = y_nome)
+    salva_graf(plot, fig_nome)
 
-def img_wordcloud(df, nome = "nuvem.png", coluna = "Palavras", image = -1, color = "black"):
+
+def img_wordcloud(df, nome = "images/nuvem.png", coluna = "Palavras", image = -1, color = "black"):
 
     palavras = df[coluna]
 
@@ -39,70 +44,59 @@ def img_wordcloud(df, nome = "nuvem.png", coluna = "Palavras", image = -1, color
     nuvem.to_file(nome)
 
 
-def visualizacao_iii(df):
+def visualizacao_2_iii(df):
     for album, palavras_comuns in p2.iii(df).items():        
         match album:
             case "× (Multiply)":
-                imagem = np.array(Image.open("Multiply.jpg"))
-                img_wordcloud(palavras_comuns, nome = album + ".png", image = imagem, color = "#1BBF44")
+                imagem = np.array(Image.open("images/Multiply.jpg"))
+                img_wordcloud(palavras_comuns, nome = f"images/Alb {album}.png", image = imagem, color = "#1BBF44")
             case "÷ (Divide)":
-                imagem = np.array(Image.open("Divide.jpg"))
-                img_wordcloud(palavras_comuns, nome = album + ".png", image = imagem, color = "#79BED9")   
+                imagem = np.array(Image.open("images/Divide.jpg"))
+                img_wordcloud(palavras_comuns, nome = f"images/Alb {album}.png", image = imagem, color = "#79BED9")   
             case "(Equals)":
-                imagem = np.array(Image.open("Equal.jpg"))
-                img_wordcloud(palavras_comuns, nome = album + ".png", image = imagem, color = "#D90D1E") 
+                imagem = np.array(Image.open("images/Equal.jpg"))
+                img_wordcloud(palavras_comuns, nome = f"images/Alb {album}.png", image = imagem, color = "#D90D1E") 
             case "(Plus)":
-                imagem = np.array(Image.open("Plus.jpg"))
-                img_wordcloud(palavras_comuns, nome = album + ".png", image = imagem, color = "#C53A01") 
+                imagem = np.array(Image.open("images/Plus.jpg"))
+                img_wordcloud(palavras_comuns, nome = f"images/Alb {album}.png", image = imagem, color = "#C53A01") 
             case other:      
-                img_wordcloud(palavras_comuns, nome = album + ".png")
+                img_wordcloud(palavras_comuns, nome = f"images/Alb {album}.png")
 
 #-----------------------------------------------------------------------
 
 if __name__ == "__main__":
     import funcoes_auxiliares as fa
+    import perguntas_1 as p1
     import perguntas_2 as p2
 
-    df = fa.prep_2(fa.prep_dataframe("A1 LP.xlsx"))
+    df2 = fa.prep_dataframe("A1 LP.xlsx")
+    df = fa.prep_2(df2)
 
     # stop = set(STOPWORDS)
     # print(stop)
 
+   
+    
+
+    
+
+    # gp1_2 = p1.ii(df2)
+    # gp1_2 = gp1_2.droplevel("Album")
+    # gp1_2.reset_index(inplace=True)
+    # gp1_2.rename(columns = {"index": "Música"}, inplace=True)
+    # g = gp1_2[["Música","Tempo"]]
+    # for num in range(len(g["Tempo"])):
+    #     g["Tempo"][num] = int((g["Tempo"][num]).strftime("%H%M%S"))
+    # graf(g, "Música", "Tempo", "images/teste_3.png")
+    
     print("-"*60)
     fun_i = p2.i_palavras_comuns_tit_album(df).head(10)
-    img_wordcloud(fun_i)
+    img_wordcloud(fun_i, nome = "images/PComum Album nuvem.png")
 
 
     print("-"*60)
     fun_ii = p2.ii_palavras_comuns_tit_musicas(df)
-    graf(fun_ii, "Palavras", "Contagem", "teste_2.png")
-    print(fun_ii.head(15))
-    #img_wordcloud(fun_ii, nome = "nuvem2.png")
-    
+    img_wordcloud(fun_ii, nome = "images/PComum Música nuvem.png")
 
     print("-"*60)
-    visualizacao_iii(df)
-    
-        
-
-    # print("-"*60)
-
-    # fun_iv = p2.iv_palavras_comuns_let_musicas(df)
-    # print(fun_iv.head(25))
-    # graf(fun_iv, "Palavras", "Contagem", "teste_4.png")
-    # img_wordcloud(fun_iv, nome = "nuvem4.png")
-
-    # print("-"*60)
-    # fun_v =p2.v(df)
-    # graf(fun_v, "Palavras", "Contagem", "teste_5.png")
-    # print(fun_v)
-
-    # print("-"*60)
-    # fun_vi =p2.vi(df).head(10)
-    # graf(fun_vi, "Palavras", "Contagem", "teste_6.png")
-    # print(fun_vi)
-
-
-    # for album, palavras_comuns in p2.iii(df).items():
-    #     print("\n\nAlbum: ", album, "\n")
-    #     print(palavras_comuns.head())
+    visualizacao_2_iii(df)
